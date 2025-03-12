@@ -1,15 +1,15 @@
-import React from "react";
+import React from 'react';
 
 interface ImageUploadProps {
-  setImage: React.Dispatch<React.SetStateAction<any>>;
+  setImage: React.Dispatch<React.SetStateAction<string | null>>; // Assuming you're using a string URL for the image
 }
 
 const ImageUpload: React.FC<ImageUploadProps> = ({ setImage }) => {
-  const handleImageUpload = (event: any) => {
-    const file = event.target.files[0];
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = () => setImage(reader.result);
+      reader.onload = () => setImage(reader.result as string); // Cast to string because it's a data URL
       reader.readAsDataURL(file);
     }
   };
